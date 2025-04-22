@@ -1,0 +1,38 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  width: 200px;
+  height: calc(100vh - 60px); /* 헤더 제외한 높이 */
+  background-color: #f8f9fa;
+  border-right: 1px solid #ddd;
+  padding: 20px 16px;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+  z-index: 1003;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 0.95rem;
+  animation: slideIn 0.2s ease;
+}
+
+.sidebar-item {
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sidebar-item:hover {
+  background-color: #e6e6e6;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

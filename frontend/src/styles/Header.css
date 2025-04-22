@@ -1,0 +1,46 @@
+.header {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.2rem;
+  font-weight: bold;
+  z-index: 999;
+}
+
+.header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.profile-box {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  cursor: pointer;
+}
+
+.username {
+  font-size: 0.9rem;
+  color: #333;
+}
+.profile-button {
+  all: unset; /* 기본 버튼 스타일 초기화 */
+  cursor: pointer;
+}

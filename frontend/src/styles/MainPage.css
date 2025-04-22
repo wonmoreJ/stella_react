@@ -1,0 +1,7 @@
+.main-container {
+  margin-left: 250px; /* ✅ fixed 대응용 */
+  padding: 24px;
+  flex: 1;
+  min-height: calc(100vh - 60px);
+  background-color: #fff;
+}

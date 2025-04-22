@@ -1,32 +1,23 @@
-import { useEffect, useState } from "react";
-
-import logo from "./logo.svg";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { UserContext } from "./context/UserContext";
+import Login from "./pages/Login";
+import Main from "./pages/Main";
 import "./App.css";
 
 function App() {
-  const [msg, setMsg] = useState("");
-  useEffect(() => {
-    fetch("http://localhost:5000/api/hello")
-      .then((res) => res.json())
-      .then((data) => setMsg(data.message));
-  }, []);
+  const [userInfo, setUserInfo] = useState({ displayName: "", photo: "" });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {msg}
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={{ userInfo, setUserInfo }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/main" element={<Main />}></Route>
+        </Routes>
+      </Router>
+    </UserContext.Provider>
   );
 }
 

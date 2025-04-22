@@ -1,0 +1,4 @@
+.profile-button {
+  all: unset; /* 기본 버튼 스타일 초기화 */
+  cursor: pointer;
+}
