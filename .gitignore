@@ -1,0 +1,38 @@
+# node_modules 전역 무시 (백엔드 & 프론트엔드)
+**/node_modules/
+
+# 환경 변수 파일
+**/.env
+
+# 로그 파일
+**/npm-debug.log
+**/yarn-debug.log
+**/yarn-error.log
+
+# 운영 체제 특성 파일
+.DS_Store
+Thumbs.db
+
+# 에디터 설정 파일
+.vscode/
+.idea/
+
+# 프론트엔드 빌드 결과물
+frontend/build/
+frontend/dist/
+
+# 백엔드 빌드 결과물 (예: TypeScript 사용 시)
+backend/dist/
+
+# 프론트 Vite 캐시 (Vite 사용하는 경우)
+frontend/.vite/
+
+# 테스트 커버리지 결과물
+**/coverage/
+
+# 기본 Git ignore들
+*.log
+*.tgz
+
+# optional: 백엔드 업로드된 임시파일
+backend/uploads/
