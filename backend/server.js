@@ -21,6 +21,8 @@ app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(passport.initialize());
+app.use(express.json({ limit: "5mb" }));
+app.use(express.urlencoded({ limit: "5mb", extended: true }));
 
 // ✅ 패스포트 구글 전략 등록
 passport.use(
@@ -103,6 +105,40 @@ app.get("/api/me", verifyToken, (req, res) => {
 app.post("/api/logout", (req, res) => {
   res.clearCookie("accessToken", { path: "/" });
   res.status(200).json({ message: "로그아웃 완료" });
+});
+
+app.post("/api/youtube", async (req, res) => {
+  const api_key = process.env.GOOGLE_API_KEY;
+  const { members } = req.body;
+
+  const updateMembers = await Promise.all(
+    members.map(async (member) => {
+      const requests = member.playListId.map((id) =>
+        fetch(
+          `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet%2CcontentDetails&maxResults=30&playlistId=${id}&key=${api_key}`
+        ).then((res) => res.json())
+      );
+      const returnPlayListData = await Promise.all(requests);
+      const playListData = returnPlayListData.flatMap((data) =>
+        data.items.map((item) => item.snippet)
+      );
+
+      for (let i = playListData.length - 1; i >= 0; i--) {
+        for (let j = i - 1; j >= 0; j--) {
+          if (playListData[i].title === playListData[j].title) {
+            playListData.splice(i, 1); // 뒤에 있는 중복 항목 삭제
+            break; // 중복이면 한 번만 지우고 끝냄
+          }
+        }
+      }
+
+      return {
+        ...member,
+        playListData,
+      };
+    })
+  );
+  res.json(updateMembers);
 });
 
 app.listen(PORT, () => {

@@ -4,27 +4,32 @@ import { UserContext } from "../context/UserContext";
 import Modal from "./Modal";
 import SideBar from "./SideBar";
 import MainPage from "./MainPage";
+import IFrameModal from "./IFrameModal";
 
-import { members } from "../data/members";
+import { members as originalMembers } from "../data/members";
 
 import "../styles/Header.css";
 export default function Main() {
+  let members = [...originalMembers];
   const { userInfo, setUserInfo } = useContext(UserContext);
   const [member, setMember] = useState({
     id: "all",
     name: "전체",
-    image: members[0].uni,
+    image: members[0].image,
     banner: members[0].banner,
+    playListId: members[0].playListId,
+    playListData: [],
   });
+  const [song, setSong] = useState({ title: "", videoId: "" });
+  const [playListView, setPlayListView] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const navigate = useNavigate();
   const profileRef = useRef();
-
   useEffect(() => {
     fetch("http://localhost:5000/api/me", {
-      credentials: "include",
+      credentials: "include", //쿠키나 세션 같은 인증 정보를 같이 보내기 위해 꼭 들어가는 옵션
     })
       .then((res) => {
         if (!res.ok) throw new Error("not authenticated"); // ✅ 이거 무조건 있어야 함
@@ -32,6 +37,7 @@ export default function Main() {
       })
       .then((data) => {
         setUserInfo(data.user);
+        youtubePlaylistAPI();
       })
       .catch(() => {
         navigate("/"); // ❌ 인증 실패 → 홈으로
@@ -61,6 +67,39 @@ export default function Main() {
     setMember(memData);
   }
 
+  function handleItemClick(title, videoId) {
+    setSong({ title: title, videoId: videoId });
+    handlePlayListView(true);
+  }
+  function handlePlayListView(boolean) {
+    setPlayListView(boolean);
+  }
+  function youtubePlaylistAPI() {
+    fetch("http://localhost:5000/api/youtube", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ members }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        data.forEach(setMembersAPI);
+        const mem = members.find((m) => m.id === member.id);
+        setMember(mem);
+      })
+      .catch((err) => {
+        console.error("API호출실패: ", err);
+      });
+  }
+
+  function setMembersAPI(d) {
+    const member = members.find((m) => m.id === d.id);
+    if (member) {
+      member.playListData = d.playListData;
+    }
+  }
+
   if (userInfo?.displayName) {
     return (
       <>
@@ -88,7 +127,12 @@ export default function Main() {
           </div>
         </header>
 
-        <MainPage memberInfo={member} />
+        <MainPage memberInfo={member} handleItemClick={handleItemClick} />
+        <IFrameModal
+          songInfo={song}
+          playListView={playListView}
+          handlePlayListView={handlePlayListView}
+        />
       </>
     );
   }

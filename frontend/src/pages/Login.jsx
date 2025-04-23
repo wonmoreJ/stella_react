@@ -18,7 +18,6 @@ export default function Login() {
         throw new Error("not authenticated");
       })
       .then((data) => {
-        console.log(data);
         setUserInfo(data.user);
         navigate("/main");
       })
