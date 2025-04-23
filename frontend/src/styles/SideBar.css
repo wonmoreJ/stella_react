@@ -2,28 +2,178 @@
   position: fixed;
   left: 0;
   width: 200px;
-  height: calc(100vh - 60px); /* 헤더 제외한 높이 */
+  height: 96vh; /* 전체 높이 */
   background-color: #f8f9fa;
   border-right: 1px solid #ddd;
   padding: 20px 16px;
   box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
   z-index: 1003;
+
   display: flex;
   flex-direction: column;
-  gap: 12px;
   font-size: 0.95rem;
   animation: slideIn 0.2s ease;
+  transition: width 0.3s ease;
+}
+.sidebar.collapsed {
+  width: 60px;
+}
+.sidebar.collapsed .sidebar-item span {
+  display: none; /* 텍스트 감춤 */
 }
 
-.sidebar-item {
-  padding: 8px 12px;
-  border-radius: 8px;
+.sidebar.collapsed .sidebar-item {
+  justify-content: center; /* 이미지만 가운데 */
+  padding: 25px 8px;
+}
+
+.sidebar header {
+  font-weight: bold;
+  text-align: left;
+  padding-left: 7px;
+}
+.sidebar.collapsed header {
+  font-weight: bold;
+  text-align: center;
+}
+.sidebar header button {
+  font-weight: bold;
+  font-size: 25px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  border-radius: 50%;
+  border: 0px !important;
+  padding: 5px 4px 6px 4px;
+  background-color: #f8f9fa;
+}
+.sidebar header button:hover {
+  background-color: #f1f1f1;
+}
+.sidebar footer {
+  padding: 12px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-radius: 6px;
 }
 
-.sidebar-item:hover {
-  background-color: #e6e6e6;
+.sidebar footer img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 25px 8px;
+  font-size: 14px;
+  height: 36px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: transform 0.2s ease, font-size 0.2s ease;
+}
+
+.sidebar-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 가운데 정렬 */
+  gap: 12px;
+  overflow-y: auto;
+  margin: 16px 0;
+}
+
+.sidebar-item img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.sidebar-item:hover img {
+  transform: scale(1.2); /* 이미지 확대 */
+}
+
+.sidebar-item:hover span {
+  font-size: 16px; /* 글씨 살짝 키우기 */
+  transition: font-size 0.2s ease, text-shadow 0.2s ease;
+}
+.sidebar-item.all:hover img {
+  border: 2px solid #443e9d;
+}
+.sidebar-item.uni:hover img {
+  border: 2px solid #b77de4;
+}
+.sidebar-item.hina:hover img {
+  border: 2px solid #dfb387;
+}
+.sidebar-item.mashiro:hover img {
+  border: 2px solid #757875;
+}
+.sidebar-item.lize:hover img {
+  border: 2px solid #d34344;
+}
+.sidebar-item.tabi:hover img {
+  border: 2px solid #50d3f0;
+}
+.sidebar-item.shibuki:hover img {
+  border: 2px solid #794eb7;
+}
+.sidebar-item.rin:hover img {
+  border: 2px solid #7299f4;
+}
+.sidebar-item.nana:hover img {
+  border: 2px solid #ffaaba;
+}
+.sidebar-item.riko:hover img {
+  border: 2px solid #6dd65c;
+}
+
+.sidebar-item.all.selected img {
+  border: 3px solid #443e9d;
+}
+.sidebar-item.uni.selected img {
+  border: 3px solid #b77de4;
+}
+.sidebar-item.hina.selected img {
+  border: 3px solid #dfb387;
+}
+.sidebar-item.mashiro.selected img {
+  border: 3px solid #757875;
+}
+.sidebar-item.lize.selected img {
+  border: 3px solid #d34344;
+}
+.sidebar-item.tabi.selected img {
+  border: 3px solid #50d3f0;
+}
+.sidebar-item.shibuki.selected img {
+  border: 3px solid #794eb7;
+}
+.sidebar-item.rin.selected img {
+  border: 3px solid #7299f4;
+}
+.sidebar-item.nana.selected img {
+  border: 3px solid #ffaaba;
+}
+.sidebar-item.riko.selected img {
+  border: 3px solid #6dd65c;
+}
+
+.sidebar-item.selected {
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+.none-button {
+  all: unset; /* 기본 버튼 스타일 초기화 */
+  cursor: pointer;
 }
 
 @keyframes slideIn {

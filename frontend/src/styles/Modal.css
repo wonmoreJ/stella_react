@@ -1,7 +1,7 @@
 .modal-container {
   position: absolute;
-  top: 60px; /* 헤더 아래 */
-  right: 20px;
+  top: 40px; /* 헤더 아래 */
+  right: 0px;
   background: #fff;
   padding: 16px;
   border-radius: 12px;

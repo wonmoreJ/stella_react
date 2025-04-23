@@ -5,10 +5,20 @@ import Modal from "./Modal";
 import SideBar from "./SideBar";
 import MainPage from "./MainPage";
 
+import { members } from "../data/members";
+
 import "../styles/Header.css";
 export default function Main() {
   const { userInfo, setUserInfo } = useContext(UserContext);
+  const [member, setMember] = useState({
+    id: "all",
+    name: "전체",
+    image: members[0].uni,
+    banner: members[0].banner,
+  });
   const [isModal, setIsModal] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   const navigate = useNavigate();
   const profileRef = useRef();
 
@@ -26,7 +36,7 @@ export default function Main() {
       .catch(() => {
         navigate("/"); // ❌ 인증 실패 → 홈으로
       });
-  }, []);
+  }, [navigate, setUserInfo]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -45,16 +55,27 @@ export default function Main() {
     };
   }, [isModal]);
 
+  function handleSideClick(id) {
+    const memData = members.find((mem) => mem.id === id);
+
+    setMember(memData);
+  }
+
   if (userInfo?.displayName) {
     return (
       <>
-        <SideBar />
+        <SideBar
+          handleSideClick={handleSideClick}
+          setIsSidebarOpen={setIsSidebarOpen}
+          isSidebarOpen={isSidebarOpen}
+          memberInfo={member}
+        />
         <header className="header">
-          <div className="header-title">Stellive</div>
+          <div className="header-title">검색창</div>
           <div className="profile-box" ref={profileRef}>
             {/* <span className="username">{userInfo.displayName}</span> */}
             <button
-              onClick={() => setIsModal(isModal ? false : true)}
+              onClick={() => setIsModal(!isModal)}
               className="profile-button"
             >
               <img
@@ -67,7 +88,7 @@ export default function Main() {
           </div>
         </header>
 
-        <MainPage />
+        <MainPage memberInfo={member} />
       </>
     );
   }

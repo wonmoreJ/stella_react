@@ -1,12 +1,12 @@
 .header {
   position: relative;
   width: 100%;
-  height: 60px;
-  background-color: #f8f9fa;
+  height: 80px;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #ddd;
+
   font-size: 1.2rem;
   font-weight: bold;
   z-index: 999;
@@ -43,4 +43,36 @@
 .profile-button {
   all: unset; /* 기본 버튼 스타일 초기화 */
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    height: 50px;
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+
+  .profile-box {
+    right: 10px;
+    gap: 6px;
+  }
+
+  .profile-img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .username {
+    display: none; /* 모바일에선 이름 숨김 */
+  }
+}
+@media screen and (max-width: 480px) {
+  .header-title {
+    font-size: 0.95rem;
+  }
+
+  .profile-img {
+    width: 24px;
+    height: 24px;
+  }
 }

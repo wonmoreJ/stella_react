@@ -1,10 +1,19 @@
 import "../styles/MainPage.css";
+import PropTypes from "prop-types";
 
-export default function SideBar() {
+export default function MainPage({ memberInfo }) {
   return (
     <div className="main-container">
-      <h2>🏠 메인 페이지</h2>
-      <p>여기에 컨텐츠 뿌리면 됨</p>
+      <img src={memberInfo.banner} alt="banner" />
     </div>
   );
 }
+
+MainPage.propTypes = {
+  memberInfo: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    banner: PropTypes.string.isRequired,
+  }).isRequired,
+};
