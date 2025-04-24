@@ -1,5 +1,4 @@
 .main-container {
-  margin-left: 230px; /* ✅ fixed 대응용 */
   display: flex;
   flex-direction: column;
   align-items: center; /* 수평 가운데 정렬 */
@@ -12,10 +11,6 @@
   width: 1290px;
   height: 205px;
   object-fit: cover; /* 이미지 비율 유지하면서 꽉 채움 (선택사항) */
-}
-
-.sidebar.collapsed ~ .main-container {
-  margin-left: 60px;
 }
 
 .playlist-outer {

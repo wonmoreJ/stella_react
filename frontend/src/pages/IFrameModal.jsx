@@ -3,12 +3,24 @@ import "../styles/IFrameModal.css";
 
 export default function IFrameModal({
   songInfo,
+  playlistInfo,
   playListView,
   handlePlayListView,
+  setSong,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const playerRef = useRef(null);
   const playerInstance = useRef(null);
+  const songRef = useRef(songInfo);
+  const playlistRef = useRef(playlistInfo);
+
+  useEffect(() => {
+    songRef.current = songInfo;
+  }, [songInfo]);
+
+  useEffect(() => {
+    playlistRef.current = playlistInfo;
+  }, [playlistInfo]);
 
   useEffect(() => {
     const loadYTScript = () => {
@@ -26,6 +38,9 @@ export default function IFrameModal({
             height: "360",
             width: "640",
             videoId: songInfo.videoId,
+            events: {
+              onStateChange: onPlayerStateChange,
+            },
           });
         }
       }, 100);
@@ -39,6 +54,27 @@ export default function IFrameModal({
       }
     };
   }, []);
+  // 상태 변경 시 호출
+  function onPlayerStateChange(event) {
+    const state = event.data;
+
+    if (state == window.YT.PlayerState.ENDED) {
+      const currentSong = songRef.current;
+      const currentPlaylist = playlistRef.current;
+
+      if (currentPlaylist.length == 0) return;
+
+      const idx = currentPlaylist.findIndex(
+        (s) => s.title === currentSong.title
+      );
+      const nextIdx = (idx + 1) % currentPlaylist.length;
+
+      setSong({
+        title: currentPlaylist[nextIdx].title,
+        videoId: currentPlaylist[nextIdx].videoId,
+      });
+    }
+  }
 
   useEffect(() => {
     if (playerInstance.current && songInfo.videoId && playListView) {
@@ -75,7 +111,7 @@ export default function IFrameModal({
 
         <div className="video-toggle-buttons">
           <button onClick={() => setIsExpanded(!isExpanded)}>
-            {isExpanded ? "⬇️" : "⬆️"}
+            {isExpanded ? "▼" : "▲"}
           </button>
           <button
             onClick={() => {

@@ -99,7 +99,7 @@
 
 .sidebar.collapsed ~ .video-card {
   left: 233px; /* 사이드바 너비만큼 띄움 */
-  width: calc(100% - 468px); /* 남은 공간을 플레이어에 할당 */
+  width: calc(100% - 498px); /* 남은 공간을 플레이어에 할당 */
 }
 
 .sidebar-item:hover img {

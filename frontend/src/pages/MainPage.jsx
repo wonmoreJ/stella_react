@@ -2,7 +2,6 @@ import "../styles/MainPage.css";
 import PropTypes from "prop-types";
 
 export default function MainPage({ memberInfo, handleItemClick }) {
-  console.log(memberInfo);
   return (
     <div className="main-container">
       <img src={memberInfo.banner} alt="banner" />
@@ -13,7 +12,11 @@ export default function MainPage({ memberInfo, handleItemClick }) {
             <button
               key={list.resourceId.videoId}
               onClick={() =>
-                handleItemClick(list.title, list.resourceId.videoId)
+                handleItemClick(
+                  list.title,
+                  list.resourceId.videoId,
+                  list.thumbnails.medium.url
+                )
               }
               className="none-button"
             >

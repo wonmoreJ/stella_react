@@ -5,7 +5,8 @@ import Modal from "./Modal";
 import SideBar from "./SideBar";
 import MainPage from "./MainPage";
 import IFrameModal from "./IFrameModal";
-
+import PlayListModal from "./PlayListModal";
+import Search from "./Search";
 import { members as originalMembers } from "../data/members";
 
 import "../styles/Header.css";
@@ -24,9 +25,10 @@ export default function Main() {
   const [playListView, setPlayListView] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
+  const [playlist, setPlaylist] = useState([]);
   const navigate = useNavigate();
   const profileRef = useRef();
+
   useEffect(() => {
     fetch("http://localhost:5000/api/me", {
       credentials: "include", //쿠키나 세션 같은 인증 정보를 같이 보내기 위해 꼭 들어가는 옵션
@@ -67,7 +69,26 @@ export default function Main() {
     setMember(memData);
   }
 
-  function handleItemClick(title, videoId) {
+  function handleItemClick(title, videoId, src) {
+    setSong({ title: title, videoId: videoId });
+
+    setPlaylist((prev) =>
+      prev.some((item) => item.title === title)
+        ? prev
+        : [
+            ...prev,
+            {
+              title: title,
+              videoId: videoId,
+              src: src,
+            },
+          ]
+    );
+
+    handlePlayListView(true);
+  }
+
+  function handleListClick(title, videoId, src) {
     setSong({ title: title, videoId: videoId });
     handlePlayListView(true);
   }
@@ -110,7 +131,9 @@ export default function Main() {
           memberInfo={member}
         />
         <header className="header">
-          <div className="header-title">검색창</div>
+          <div className="header-title">
+            <Search />
+          </div>
           <div className="profile-box" ref={profileRef}>
             {/* <span className="username">{userInfo.displayName}</span> */}
             <button
@@ -126,12 +149,18 @@ export default function Main() {
             {isModal && <Modal onClose={() => setIsModal(false)} />}
           </div>
         </header>
-
+        <PlayListModal
+          playlist={playlist}
+          handleListClick={handleListClick}
+          song={song}
+        />
         <MainPage memberInfo={member} handleItemClick={handleItemClick} />
         <IFrameModal
           songInfo={song}
+          playlistInfo={playlist}
           playListView={playListView}
           handlePlayListView={handlePlayListView}
+          setSong={setSong}
         />
       </>
     );
