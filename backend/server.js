@@ -1,10 +1,11 @@
 const dotenv = require("dotenv");
 dotenv.config();
 // ✅ 환경 변수 (임시로 직접 넣음)
+const FRONTEND_URL = process.env.FRONTEND_URL; // ← .env로 관리
+const CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL;
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const JWT_SECRET = process.env.JWT_SECRET;
-const FRONTEND_URL = "http://localhost:3000";
 
 const express = require("express");
 const passport = require("passport");
@@ -30,7 +31,7 @@ passport.use(
     {
       clientID: CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:5000/auth/google/callback",
+      callbackURL: CALLBACK_URL,
     },
     (accessToken, refreshToken, profile, done) => {
       return done(null, profile); // req.user 에 들어감
@@ -68,7 +69,7 @@ app.get(
 
     res.cookie("accessToken", token, {
       httpOnly: true,
-      secure: false, // 로컬에서는 false
+      secure: true, // 로컬에서는 false
       sameSite: "lax",
       maxAge: 1000 * 60 * 60, // 1시간
     });
@@ -141,6 +142,6 @@ app.post("/api/youtube", async (req, res) => {
   res.json(updateMembers);
 });
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
 });

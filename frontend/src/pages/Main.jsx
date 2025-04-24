@@ -28,9 +28,10 @@ export default function Main() {
   const [playlist, setPlaylist] = useState([]);
   const navigate = useNavigate();
   const profileRef = useRef();
+  const baseURL = process.env.REACT_APP_API_BASE;
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/me", {
+    fetch(`${baseURL}/api/me`, {
       credentials: "include", //쿠키나 세션 같은 인증 정보를 같이 보내기 위해 꼭 들어가는 옵션
     })
       .then((res) => {
@@ -96,7 +97,7 @@ export default function Main() {
     setPlayListView(boolean);
   }
   function youtubePlaylistAPI() {
-    fetch("http://localhost:5000/api/youtube", {
+    fetch(`${baseURL}/api/youtube`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

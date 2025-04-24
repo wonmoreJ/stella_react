@@ -8,9 +8,10 @@ import { UserContext } from "../context/UserContext";
 export default function Login() {
   const navigate = useNavigate();
   const { userInfo, setUserInfo } = useContext(UserContext);
-
+  const baseURL = process.env.REACT_APP_API_BASE;
+  console.log(baseURL);
   useEffect(() => {
-    fetch("http://localhost:5000/api/me", {
+    fetch(`${baseURL}/api/me`, {
       credentials: "include",
     })
       .then((res) => {
@@ -27,7 +28,7 @@ export default function Login() {
   }, []);
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = `${baseURL}/auth/google`;
   };
 
   return (
