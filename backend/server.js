@@ -34,6 +34,8 @@ passport.use(
       callbackURL: CALLBACK_URL,
     },
     (accessToken, refreshToken, profile, done) => {
+      console.log("✅ GoogleStrategy loaded");
+      console.log("Callback URL: ", process.env.CALLBACK_URL);
       return done(null, profile); // req.user 에 들어감
     }
   )
@@ -42,6 +44,11 @@ passport.use(
 // ✅ 로그인 시작
 app.get(
   "/auth/google",
+  (req, res, next) => {
+    console.log("CLIENT_ID:", CLIENT_ID);
+    console.log("CALLBACK_URL:", CALLBACK_URL);
+    next();
+  },
   passport.authenticate("google", {
     scope: ["profile", "email"],
   })
