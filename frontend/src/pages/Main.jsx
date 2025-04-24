@@ -121,6 +121,21 @@ export default function Main() {
     }
   }
 
+  function handleSearchList(str) {
+    const resultData = [];
+    members.forEach((data) => {
+      const dataList = data.playListData;
+
+      dataList.forEach((item) => {
+        item.title.includes(str) && resultData.push(item);
+      });
+    });
+
+    if (resultData.length == 0) alert("검색결과X");
+
+    setMember({ ...member, playListData: resultData });
+  }
+
   if (userInfo?.displayName) {
     return (
       <>
@@ -132,7 +147,7 @@ export default function Main() {
         />
         <header className="header">
           <div className="header-title">
-            <Search />
+            <Search handleSearchList={handleSearchList} />
           </div>
           <div className="profile-box" ref={profileRef}>
             {/* <span className="username">{userInfo.displayName}</span> */}

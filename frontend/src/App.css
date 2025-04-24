@@ -1,7 +1,9 @@
 .App {
   text-align: center;
 }
-
+body {
+  caret-color: transparent; /* ✅ 커서 숨기기 */
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
