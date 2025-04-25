@@ -4,9 +4,10 @@ import "../styles/Modal.css";
 
 export default function Modal({ onClose }) {
   const { userInfo } = useContext(UserContext);
+  const baseURL = process.env.REACT_APP_API_BASE;
 
   function logOut() {
-    fetch("http://localhost:5000/api/logout", {
+    fetch(`${baseURL}/api/logout`, {
       method: "POST",
       credentials: "include",
     }).then(() => {
