@@ -111,7 +111,12 @@ app.get("/api/me", verifyToken, (req, res) => {
 });
 
 app.post("/api/logout", (req, res) => {
-  res.clearCookie("accessToken", { path: "/" });
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    path: "/",
+  });
   res.status(200).json({ message: "로그아웃 완료" });
 });
 
