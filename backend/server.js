@@ -35,7 +35,7 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       console.log("✅ GoogleStrategy loaded");
-      console.log("Callback URL: ", process.env.CALLBACK_URL);
+      console.log("Callback URL: ", CALLBACK_URL);
       return done(null, profile); // req.user 에 들어감
     }
   )
