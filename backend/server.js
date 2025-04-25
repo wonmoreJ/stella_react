@@ -77,7 +77,7 @@ app.get(
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: true, // 로컬에서는 false
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 1000 * 60 * 60, // 1시간
     });
 
