@@ -30,22 +30,22 @@ export default function Main() {
   const profileRef = useRef();
   const baseURL = process.env.REACT_APP_API_BASE;
 
-  useEffect(() => {
-    fetch(`${baseURL}/api/me`, {
-      credentials: "include", //쿠키나 세션 같은 인증 정보를 같이 보내기 위해 꼭 들어가는 옵션
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("not authenticated"); // ✅ 이거 무조건 있어야 함
-        return res.json();
-      })
-      .then((data) => {
-        setUserInfo(data.user);
-        youtubePlaylistAPI();
-      })
-      .catch(() => {
-        navigate("/"); // ❌ 인증 실패 → 홈으로
-      });
-  }, [navigate, setUserInfo]);
+  // useEffect(() => {
+  //   fetch(`${baseURL}/api/me`, {
+  //     credentials: "include", //쿠키나 세션 같은 인증 정보를 같이 보내기 위해 꼭 들어가는 옵션
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) throw new Error("not authenticated"); // ✅ 이거 무조건 있어야 함
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setUserInfo(data.user);
+  //       youtubePlaylistAPI();
+  //     })
+  //     .catch(() => {
+  //       navigate("/"); // ❌ 인증 실패 → 홈으로
+  //     });
+  // }, [navigate, setUserInfo]);
 
   useEffect(() => {
     function handleClickOutside(e) {
