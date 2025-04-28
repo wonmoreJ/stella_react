@@ -32,12 +32,6 @@ export default function SideBar({
           </button>
         ))}
       </div>
-
-      <footer>
-        <a href="https://github.com/wonmoreJ/stella_react.git" target="_blank">
-          <img src={sideIcon} alt="gitIcon" />
-        </a>
-      </footer>
     </div>
   );
 }
